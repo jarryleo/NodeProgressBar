@@ -149,7 +149,8 @@ class NodeProgressBar @JvmOverloads constructor(
             val x = (i + 1) * mPart - mPart / 2
             val bitmap = getNodeBitmap(node, mProgress > i)
             if (bitmap != null) {
-                val l = x - (bitmap.width / 2f)
+                val nodeOffset = node.offset
+                val l = x - (bitmap.width / 2f) + nodeOffset
                 val t = centerY - (bitmap.height / 2f)
                 canvas.drawBitmap(bitmap, l, t, mForegroundPaint)
             }
