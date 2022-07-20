@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  节点进度条  -->
+    <declare-styleable name="NodeProgressBar">
+        <attr name="npb_thickness" format="dimension" />
+        <attr name="npb_start_color" format="color" />
+        <attr name="npb_end_color" format="color" />
+        <attr name="npb_background_color" format="color" />
+        <attr name="npb_node_active" format="reference" />
+        <attr name="npb_node_inactive" format="reference" />
+        <attr name="npb_text_size" format="dimension" />
+        <attr name="npb_text_color" format="color" />
+        <attr name="npb_text_margin" format="dimension" />
+        <attr name="npb_text_align" format="enum">
+            <enum name="top" value="1" />
+            <enum name="bottom" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>
