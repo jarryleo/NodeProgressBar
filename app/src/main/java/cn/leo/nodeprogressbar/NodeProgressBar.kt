@@ -32,6 +32,11 @@ import kotlin.math.roundToInt
 <enum name="top" value="1" />
 <enum name="bottom" value="2" />
 </attr>
+<attr name="npb_mode" format="enum">
+<enum name="spaceBetween" value="1" />
+<enum name="spaceAround" value="2" />
+<enum name="spaceEvenly" value="3" />
+</attr>
 </declare-styleable>
  */
 class NodeProgressBar @JvmOverloads constructor(
