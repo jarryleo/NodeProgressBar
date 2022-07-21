@@ -143,8 +143,8 @@ class NodeProgressBar @JvmOverloads constructor(
         if (nodes.size == 1) {
             length = (space / 2).toFloat()
         }
-        val index = maxOf(0, mProgress - 1)
-        val offset = nodes[index].offset
+        val index = mProgress - 1
+        val offset = nodes.getOrNull(index)?.offset ?: 0
         val left = paddingLeft.toFloat()
         val top = centerY - mThickness / 2f
         val right = length + offset + left
@@ -240,8 +240,8 @@ class NodeProgressBar @JvmOverloads constructor(
         if (nodes.size == 1) {
             length = (space / 2).toFloat()
         }
-        val index = maxOf(0, progress - 1)
-        val offset = nodes[index].offset
+        val index = progress - 1
+        val offset = nodes.getOrNull(index)?.offset ?: 0
         val left = paddingLeft.toFloat()
         val top = centerY - mThickness / 2f
         val right = length + offset + left
