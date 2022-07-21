@@ -143,7 +143,8 @@ class NodeProgressBar @JvmOverloads constructor(
         if (nodes.size == 1) {
             length = (space / 2).toFloat()
         }
-        val offset = nodes[mProgress].offset
+        val index = maxOf(0, mProgress - 1)
+        val offset = nodes[index].offset
         val left = paddingLeft.toFloat()
         val top = centerY - mThickness / 2f
         val right = length + offset + left
@@ -174,11 +175,12 @@ class NodeProgressBar @JvmOverloads constructor(
             }
             //绘制节点文字
             val margin = if (mTextAlign == 2) {
-                centerY + node.offset + mTextMargin
+                centerY + mTextMargin
             } else {
-                centerY - node.offset - mTextMargin
+                centerY - mTextMargin
             }
-            canvas.drawText(node.text, x, margin.toFloat(), mTextPaint)
+            val nodeOffset = nodes[i].offset
+            canvas.drawText(node.text, x + nodeOffset, margin.toFloat(), mTextPaint)
         }
     }
 
@@ -212,6 +214,7 @@ class NodeProgressBar @JvmOverloads constructor(
             } else {
                 (space / (nodes.size - 1)).toFloat()
             }
+            2 -> (space / nodes.size).toFloat()
             3 -> (space / (nodes.size + 1)).toFloat()
             else -> (space / nodes.size).toFloat()
         }
@@ -237,7 +240,8 @@ class NodeProgressBar @JvmOverloads constructor(
         if (nodes.size == 1) {
             length = (space / 2).toFloat()
         }
-        val offset = nodes[progress].offset
+        val index = maxOf(0, progress - 1)
+        val offset = nodes[index].offset
         val left = paddingLeft.toFloat()
         val top = centerY - mThickness / 2f
         val right = length + offset + left
