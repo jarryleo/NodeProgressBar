@@ -60,7 +60,7 @@ class NodeProgressBar @JvmOverloads constructor(
     private var mWidth = 0
     private var mHeight = 0
     private var mThickness = 10.dp
-    private var mProgress = 0
+    private var mProgress = 0f
     private var mPart = 0f
     private var mMode = 2
     private var mForeground: LinearGradient? = null
@@ -111,8 +111,8 @@ class NodeProgressBar @JvmOverloads constructor(
         mTextPaint.color = mTextColor
         doOnLayout {
             if (isInEditMode) {
-                setNodes(arrayOf(Node("节点1"), Node("节点2"), Node("节点3")))
-                setProgress(2)
+                setNodes(arrayOf(Node("节点1"), Node("节点2")))
+                setProgress(2f)
             }
         }
     }
@@ -133,21 +133,23 @@ class NodeProgressBar @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         val space = mWidth - paddingLeft - paddingRight
         val centerY = mHeight / 2
+        val int: Int = mProgress.toInt()
+        val decimal: Float = mProgress - int
         var length = when (mMode) {
-            1 -> maxOf(0, mProgress - 1) * mPart
-            2 -> mProgress * mPart - mPart / 2f
-            3 -> mProgress * mPart
-            else -> mProgress * mPart - mPart / 2f
+            1 -> maxOf(0, int - 1) * mPart
+            2 -> int * mPart - mPart / 2f
+            3 -> int * mPart
+            else -> int * mPart - mPart / 2f
         }
         val nodes = mNodes ?: return
         if (nodes.size == 1) {
             length = (space / 2).toFloat()
         }
-        val index = mProgress - 1
+        val index = int - 1
         val offset = nodes.getOrNull(index)?.offset ?: 0
         val left = paddingLeft.toFloat()
         val top = centerY - mThickness / 2f
-        val right = length + offset + left
+        val right = length + offset + left + (mPart - offset) * decimal
         val bottom = centerY + mThickness / 2f
 
         //绘制进度条背景
@@ -166,7 +168,7 @@ class NodeProgressBar @JvmOverloads constructor(
                 3 -> (i + 1) * mPart
                 else -> (i + 1) * mPart - mPart / 2f
             } + paddingLeft
-            val bitmap = getNodeBitmap(node, mProgress > i)
+            val bitmap = getNodeBitmap(node, int > i)
             if (bitmap != null) {
                 val nodeOffset = node.offset
                 val l = x - (bitmap.width / 2f) + nodeOffset
@@ -223,28 +225,31 @@ class NodeProgressBar @JvmOverloads constructor(
 
     /**
      * 完成度，进度高亮到节点
+     * 浮点数，小数可以让进度处于2个节点中间
      *
      * @param progress 0 - mNodes.length
      */
-    fun setProgress(progress: Int) {
+    fun setProgress(progress: Float) {
         val nodes = mNodes ?: return
         mProgress = progress
         val space = mWidth - paddingLeft - paddingRight
         val centerY = mHeight / 2
+        val int: Int = progress.toInt()
+        val decimal: Float = progress - int
         var length = when (mMode) {
-            1 -> maxOf(0, mProgress - 1) * mPart
-            2 -> mProgress * mPart - mPart / 2f
-            3 -> mProgress * mPart
-            else -> mProgress * mPart - mPart / 2f
+            1 -> maxOf(0, int - 1) * mPart
+            2 -> int * mPart - mPart / 2f
+            3 -> int * mPart
+            else -> int * mPart - mPart / 2f
         }
         if (nodes.size == 1) {
             length = (space / 2).toFloat()
         }
-        val index = progress - 1
+        val index = int - 1
         val offset = nodes.getOrNull(index)?.offset ?: 0
         val left = paddingLeft.toFloat()
         val top = centerY - mThickness / 2f
-        val right = length + offset + left
+        val right = length + offset + left + (mPart - offset) * decimal
         val bottom = centerY + mThickness / 2f
         mForeground =
             LinearGradient(left, top, right, bottom, mStartColor, mEndColor, Shader.TileMode.CLAMP)
